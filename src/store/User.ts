@@ -9,12 +9,14 @@ interface State {
 export const UserStore = defineStore("user", {
     state: () : IUser => ({
         phpsession: getCookie("s") ?? "",
-        username: getCookie("n") ?? ""
+        username: getCookie("n") ?? "",
+        isLoggedIn: false
     }),
     getters: {
         user : (state) : IUser => ({
             phpsession: state.phpsession,
-            username: state.username
+            username: state.username,
+            isLoggedIn: state.isLoggedIn
         })
     },
     actions: {
@@ -28,6 +30,7 @@ export const UserStore = defineStore("user", {
             deleteCookie("s");
             this.phpsession = ""
             this.setName("")
+            this.isLoggedIn = false
         },
 
         setName(username: string) {

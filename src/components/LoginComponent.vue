@@ -2,10 +2,10 @@
 
 import { ref, onMounted } from "vue"
 import { fetchCaptcha } from "../services/CaptchaService"
-import { login } from "../services/UserService"
+import { login, getCurrentUser } from "../services/UserService"
 import { UserStore } from "../store/User";
 import { ICaptchaRequest, ICaptcha } from "../contracts/ICaptcha";
-import { IUserLoginCredentials} from "../contracts/IUser";
+import { IUserLoginCredentials } from "../contracts/IUser";
 import bgMage from "../assets/bgMage.jpg"
 import RogueLogo from "../assets/logo-rogue.png"
 import Swal from "sweetalert2"
@@ -17,6 +17,7 @@ const password = ref("")
 const captcha = ref("")
 const server = ref("SEA")
 const imageData = ref("");
+const isLoading = ref(false)
 
 const refreshCaptcha = () => {
     fetchCaptcha({
@@ -29,13 +30,25 @@ const refreshCaptcha = () => {
 }
 
 onMounted(() => {
-    fetchCaptcha({
-        server: server.value,
-        sx: userStore.user.phpsession
-    } as ICaptchaRequest)
-        .then((data: ICaptcha | null) => {
-            imageData.value = data?.image || "";
+    Promise.resolve()
+        .then(() => isLoading.value = true)
+        .then(() => getCurrentUser(userStore.user))
+        .then(data => {
+            if (data) {
+                router.push("/marketplace")
+            }
         })
+        .then(() => {
+            fetchCaptcha({
+                server: server.value,
+                sx: userStore.user.phpsession
+            } as ICaptchaRequest)
+                .then((data: ICaptcha | null) => {
+                    imageData.value = data?.image || "";
+                })
+        })
+        .then(() => isLoading.value = false)
+
 })
 
 const submit = () => {
@@ -45,24 +58,25 @@ const submit = () => {
         password: password.value,
         securitycode: captcha.value
     } as IUserLoginCredentials).then(data => {
-        if(data) {
+        if (data) {
             userStore.setName(account.value)
+            userStore.isLoggedIn = true
             router.push("/marketplace")
         }
         else {
+            userStore.isLoggedIn = false;
+            refreshCaptcha();
             Swal.fire("Login Failed", "Please check your inputs", "error");
         }
     })
 }
 
 </script>
-<style>
-    body {
-        background-color: rgba(17, 24, 39, 1);
-    }
-</style>
 <template>
-    <div class="bg-gray-900 text-white">
+    <div v-if="isLoading" class="flex justify-center items-center h-screen">
+        <span class="loader" ></span>
+    </div>
+    <div class="bg-gray-900 text-white" v-else>
 
         <section class="relative flex flex-wrap lg:h-screen lg:items-center">
             <div class="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
@@ -70,7 +84,7 @@ const submit = () => {
                     <img :src="RogueLogo" class="w-full" />
 
                     <p class="mt-4 text-gray-500">
-                       Rogue International Marketplace
+                        Rogue International Marketplace
                     </p>
                 </div>
 
@@ -89,8 +103,9 @@ const submit = () => {
                         <label for="email">Username</label>
 
                         <div class="relative">
-                            <input type="text" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black"
-                                placeholder="Enter username" v-model="account"/>
+                            <input type="text"
+                                class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black"
+                                placeholder="Enter username" v-model="account" />
                         </div>
                     </div>
 
@@ -98,8 +113,9 @@ const submit = () => {
                         <label for="password">Password</label>
 
                         <div class="relative">
-                            <input type="password" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black"
-                                placeholder="Enter password" v-model="password"/>
+                            <input type="password"
+                                class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black"
+                                placeholder="Enter password" v-model="password" />
 
                             <span class="absolute inset-y-0 right-0 grid place-content-center px-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
@@ -119,8 +135,9 @@ const submit = () => {
                         <img :src="imageData" class="mb-3" @click="refreshCaptcha" />
 
                         <div class="relative">
-                            <input type="text" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black"
-                                placeholder="Enter Security Code" v-model="captcha"/>
+                            <input type="text"
+                                class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black"
+                                placeholder="Enter Security Code" v-model="captcha" />
                         </div>
                     </div>
 
@@ -131,7 +148,8 @@ const submit = () => {
                         </p>
 
                         <button type="button"
-                            class="inline-block rounded-lg bg-rose-500 px-5 py-3 text-sm font-medium text-white" @click="submit">
+                            class="inline-block rounded-lg bg-rose-500 px-5 py-3 text-sm font-medium text-white"
+                            @click="submit">
                             Sign in
                         </button>
                     </div>

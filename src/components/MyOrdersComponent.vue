@@ -58,7 +58,7 @@ onMounted(() => {
                             <td class="px-4 py-3 whitespace-no-wrap">{{ orders.createdAt }}</td>
                             <td class="px-4 py-3 whitespace-no-wrap">{{ orders.amount }}</td>
                             <td class="px-4 py-3 whitespace-no-wrap">{{ ORDER_STATUS[orders.orderStatus] }}</td>
-                            <td class="px-4 py-3 whitespace-no-wrap">{{ orders.remarks.replace(/\n/g, "<br/>") }}</td>
+                            <td class="px-4 py-3 whitespace-no-wrap" v-html="orders.remarks.replace(/\n/g, "<br/>")"></td>
                         </tr>
                     </tbody>
                 </table>

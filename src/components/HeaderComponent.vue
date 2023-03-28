@@ -41,6 +41,7 @@ const dialogControl = ref(false)
                     <br/>
                     <a class="text-white bg-rose-500 p-3 rounded block w-full my-2" href="https://rogueintl.com/recharge" target="_blank">Game Recharge</a>
                     <a class="text-white bg-rose-500 p-3 rounded block w-full my-2" href="https://rogueintl.com/terms" target="_blank">ToS</a>
+                    <button class="text-white bg-rose-500 p-3 rounded block w-full my-2" href="#" @click="userStore.deleteSession()">Logout</button>
 
                     <button @click="dialogControl = false"
                         class="mt-12 block w-full rounded bg-gray-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto">

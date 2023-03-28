@@ -127,7 +127,6 @@ const setOpenDialog = (dialog: boolean, target: IItem | null) => {
                         .then((data) => {
 
                             if (data.success) {
-                                router.push('/')
                                 Swal.fire({
                                     title: 'Success!',
                                     text: 'Your order has been placed!',
@@ -136,6 +135,7 @@ const setOpenDialog = (dialog: boolean, target: IItem | null) => {
                                     allowOutsideClick: false,
                                     allowEnterKey: false,
                                 })
+                                window.location.reload();
                             }
                             else {
                                 Swal.fire({

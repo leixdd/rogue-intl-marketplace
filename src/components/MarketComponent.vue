@@ -212,7 +212,7 @@ onMounted(() => {
         </div>
     </Dialog>
 
-    <div class="grid grid-cols-4 gap-4 m-5">
+    <div class="grid md:grid-cols-3 grid-cols-1 gap-4 m-5">
         <div v-for="(item, i) in itemList" :key="item.code">
             <div class="group relative block overflow-hidden" v-if="item.active">
                 <img :src="item.image" alt=""

@@ -20,6 +20,7 @@ const userStore = UserStore();
 
                 <nav aria-label="Site Nav" class="hidden gap-8 text-sm font-medium sm:flex">
                     <a class="text-white" href="#" @click="router.push('/marketplace')">Marketplace</a>
+                    <a class="text-white" href="#" @click="router.push('/mytransactions')">My Transactions</a>
                     <a class="text-white" href="#" @click="router.push('/order')">Order Points</a>
                     <a class="text-white" href="#" @click="router.push('/myorders')">My Orders</a>
                     <a class="text-white" href="https://rogueintl.com/recharge" target="_blank">Game Recharge</a>

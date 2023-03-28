@@ -1,5 +1,6 @@
 import Swal from "sweetalert2"
 import { IOrder } from "../contracts/IOrder"
+import { ITransaction } from "../contracts/ITransaction"
 import { UserStore } from "../store/User"
 
 
@@ -11,6 +12,32 @@ export const getOrders = () : Promise<IOrder[] | null> => {
     const userStore = UserStore()
     return new Promise((resolve, reject) => {
         fetch(`${API_URL}/api/v1/rint/orders`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                sx: userStore.phpsession,
+                n: userStore.username
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(!data.success) {
+                Swal.fire("Error", data.data, "error")
+                resolve(null)
+            }
+
+            resolve(data.data)
+        })
+    })
+}
+
+export const getMarketplaceTransactions = () : Promise<ITransaction[] | null> => {
+    const userStore = UserStore()
+    return new Promise((resolve, reject) => {
+        fetch(`${API_URL}/api/v1/rint/marketplace/transactions`, {
             method: "POST",
             mode: "cors",
             headers: {

@@ -33,6 +33,7 @@ const userStore = UserStore();
 
 const API_SERVER = ref(import.meta.env.VITE_API_URL);
 const isDialogOpen = ref(false)
+const tutorialDialog = ref(false)
 const targetItem = ref<IItem | null>(null);
 const paypalInstance = ref<PayPalNamespace | null>(null);
 const itemList = reactive<IItem[]>([]);
@@ -162,6 +163,7 @@ const setOpenDialog = (dialog: boolean, target: IItem | null) => {
 }
 
 onMounted(() => {
+    tutorialDialog.value = true
     Promise.resolve()
         .then(() => getCurrentUser(userStore.user))
         .then(data => {
@@ -176,6 +178,31 @@ onMounted(() => {
 </script>
 <template>
     <HeaderComponent />
+    <Dialog :open="tutorialDialog" @close="tutorialDialog = false" class="relative z-50">
+        <!-- The backdrop, rendered as a fixed sibling to the panel container -->
+        <div class="fixed inset-0 bg-black/30" aria-hidden="true"></div>
+
+        <!-- Full-screen container to center the panel -->
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <!-- The actual dialog panel -->
+            <DialogPanel class="w-full max-w-lg rounded bg-white p-5" style="height: 80vh">
+                <DialogTitle>
+                    <h2><strong>How to use Marketplace</strong></h2>
+                </DialogTitle>
+                <DialogDescription>
+                    <hr class="my-2" />
+
+                    <iframe width="310" height="500" src="https://www.youtube.com/embed/LlgKIoKRJrY?rel=0?version=3&autoplay=1&controls=0&&showinfo=0&loop=1" title="Rogue online payment system" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+                    <button @click="tutorialDialog = false"
+                        class="mt-12 block w-full rounded bg-gray-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto">
+                        Close
+                    </button>
+                </DialogDescription>
+            </DialogPanel>
+        </div>
+    </Dialog>
+
     <Dialog :open="isDialogOpen" @close="setOpenDialog(false, null)" class="relative z-50">
         <!-- The backdrop, rendered as a fixed sibling to the panel container -->
         <div class="fixed inset-0 bg-black/30" aria-hidden="true" />

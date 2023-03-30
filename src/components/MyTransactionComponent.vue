@@ -50,8 +50,8 @@ onMounted(() => {
                             <th class="px-4 py-3">Date</th>
                             <th lass="px-4 py-3">Order ID</th>
                             <th class="px-4 py-3">Amount</th>
-                            <th class="px-4 py-3">Code</th>
-                            <th class="px-4 py-3">PWD</th>
+                            <th class="px-4 py-3">Card Number</th>
+                            <th class="px-4 py-3">Card Password</th>
                         </tr>
                     </thead>
                     <tbody

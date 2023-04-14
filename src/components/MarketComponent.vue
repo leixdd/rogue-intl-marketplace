@@ -60,6 +60,8 @@ const setOpenDialog = (dialog: boolean, target: IItem | null) => {
     isDialogOpen.value = dialog
     targetItem.value = target
 
+    Swal.fire("Sorry", "Payment is currently disabled due to technical issues. Please try again later.", "error")
+
     if (false) {
 
         loadScript({

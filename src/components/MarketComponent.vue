@@ -60,7 +60,7 @@ const setOpenDialog = (dialog: boolean, target: IItem | null) => {
     isDialogOpen.value = dialog
     targetItem.value = target
 
-    if (targetItem.value) {
+    if (false) {
 
         loadScript({
             "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
@@ -229,6 +229,12 @@ onMounted(() => {
                     <br />
 
                     <div id="paypal-button-container"></div>
+                    <button disabled 
+                        class="mt-12 block w-full rounded bg-green-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-gray-700 focus:outline-none focus:ring active:bg-gray-500 sm:w-auto"
+                    >
+                        Pay with E-Wallet
+                    </button>
+
 
                     <button @click="setOpenDialog(false, null)"
                         class="mt-12 block w-full rounded bg-gray-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto">

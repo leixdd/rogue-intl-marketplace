@@ -164,7 +164,7 @@ const paymentMethods = reactive([
     },
     {
         method: "Binance",
-        instruction: "Binance ID: 22767896 <br/>Name: CryptoosZ<br/><br/>USDT<br/>Address: TCNPdCpJw9rCyMSfEWan3kbBp5U9ix259F<br/>Network: TRON (TRC20)"
+        instruction: "Binance ID: 22767896 <br/>Name: CryptoosZ<br/><br/>USDT<br/>Address: TKFYjt6rxGSBvCHquqwiXFCqkHtXCdeHMz<br/>Network: TRON (TRC20)"
     }
 ])
 

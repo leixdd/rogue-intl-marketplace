@@ -25,6 +25,7 @@ const UID = ref("");
 const Amount = ref("");
 const isTermsAccepted = ref(false);
 const notes = ref("");
+const streamerCode = ref("");
 
 
 
@@ -61,6 +62,7 @@ const submitOrder = () => {
     //send to /api/v1/rint/order using multipart/formdata
     const formData = new FormData();
     formData.append("server", server.value);
+    formData.append("streamerCode", streamerCode.value);
     formData.append("payment_method", paymentMethods[paymentMethod.value].method);
     formData.append("telegram", telegram.value);
     formData.append("account", account.value);
@@ -92,11 +94,6 @@ const submitOrder = () => {
     }).catch((err) => {
         Swal.fire("Something went wrong", "", "error");
     })
-
-
-
-
-
     
 }
 
@@ -229,6 +226,16 @@ onMounted(() => {
                     </select>
                 </div>
             </div>
+
+            <div>
+                <label for="discord" class="text-sm font-medium">Streamer Code</label>
+
+                <div class="relative mt-1">
+                    <input type="text" id="streamerCode" name="streamerCode" v-model="streamerCode"
+                        class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black" placeholder="Streamer Code" />
+                </div>
+            </div>
+
 
             <div>
                 <label for="server" class="text-sm font-medium">Select Telegram/Discord</label>

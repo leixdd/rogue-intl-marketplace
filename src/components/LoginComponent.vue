@@ -34,7 +34,7 @@ onMounted(() => {
         .then(() => isLoading.value = true)
         .then(() => getCurrentUser(userStore.user))
         .then(data => {
-            if (data) {
+            if (data?.isLoggedIn) {
                 router.push("/marketplace")
             }
         })
@@ -94,7 +94,7 @@ const submit = () => {
                             <label>Select Server</label>
                             <select class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm text-black"
                                 v-model="server" @change="refreshCaptcha">
-                                <option value="SEA">SEA</option>
+                                <option value="SEA">SEA &amp; NA</option>
                             </select>
                         </div>
                     </div>
